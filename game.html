@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+	#main{
+		width:400px;
+		height:400px;
+		border:2px solid green;
+		margin:0 auto;
+		position:relative;
+		overflow:hidden;
+	}
+	#container{
+		width:100%;
+		height:400px;
+		background:white;
+		position:relative;
+		top:-100px;
+	}
+	.row{
+		width:100%;
+		height:100px;
+	}
+	.cell{
+		width:100px;
+		height:100px;
+		float:left;
+	}
+	.black{
+		background:black;
+	}
+	h1{
+		font-size: 30px;
+		text-align:center;
+	}
+	.btn{
+		text-align: center;
+	}
+	#begin{
+		display: inline-block;
+		padding: 16px 50px;
+		border: 1px solid #e4007f;
+		border-radius: 3px;
+		font-size: 24px;
+		color: #000;
+		text-decoration: none;
+	}
+</style>
+</head>
+
+<body>
+	<h1>得分：<span id="score">0</span></h1>
+	<div id="main">
+      	<div id="container"></div>
+    </div>
+    <p class="btn"><a id="begin" href="javascript:;">开始</a></p>
+</body>
+
+<script>
+	var clock = null;		//定时器操作句柄
+	var state = 0;		//0初始化   1进行中   3失败
+	var speed = 2;
+
+	var flag = 0;
+	var oLast = null;
+
+	//初始化
+	function init(){
+		for(var i=0;i<4;i++){
+			crow();
+		}
+
+		oLast = $('container').lastChild;	//获取一开始的最后一行div，用于后面的判断
+		
+		$('main').onclick = function(ev){
+			flag++;
+			judge(ev);
+		}
+	}
+	
+	function judge(ev){
+		if(state == 3){
+			alert('失败者禁止入内');
+			return;
+		}
+
+		var obj = ev.target;
+
+		if(flag == 1){		//解决第一次点击的不是最下面一行的div
+			if(obj.parentNode !== oLast){
+				fail();
+			}
+		}
+
+		if(obj.className.indexOf('black') == -1){
+			fail();
+		//当flag=1时，由于第一个div没有nextSibling，所以排除在外
+		}else if(flag != 1 && (obj.className.indexOf('black') != -1) && 	//解决点击了一个div后直接可以点击
+			(obj.parentNode.nextSibling.pass != 1)){						//非相邻的后一个的bug
+			fail();
+		}else{
+			obj.className = 'cell';
+			obj.parentNode.pass = 1;
+			score();
+		}
+	}
+	
+	//让方块动起来
+	function move(){
+		var con = $('container');
+		var top = parseInt(window.getComputedStyle(con,null)['top']);
+		
+		if(speed + top > 0){
+			top = 0;
+		}else{
+			top += speed;		//调节速度
+		}
+		con.style.top = top + 'px';
+		
+		if(top==0){
+			crow();		//创建一个新行
+			con.style.top = '-100px';		//把container的top改成原来的top
+			drow();		//删除最后一行
+		}else if(top == -100+speed){
+			var rows = con.childNodes;
+			if(rows.length == 5 && rows[rows.length-1].pass !== 1){
+				fail();
+			}
+		}
+	}
+	
+	//加速
+	function jiasu(){
+		speed += 2;
+		if(speed == 20){
+			alert('你的电脑太卡了');
+		}
+	} 
+	
+	//输，结束
+	function fail(){
+		clearInterval(clock);
+		state = 3;
+		alert('结束');	
+	}
+	
+	//启动
+	function start(){
+		clock = window.setInterval('move()',30);
+	}
+	
+	//计分
+	function score(){
+		var newscore = parseInt($('score').innerHTML)+1;
+		$('score').innerHTML = newscore;
+		if(newscore % 10 == 0){
+			jiasu();
+		}
+	}
+
+	//创建div.row
+	function crow(){
+		var con = $('container');
+		var row = cdiv('row');
+		var classes = createSn();
+
+		row.pass = -1;		//给每一行新增一个pass属性，用于判断这一行是否通过要求了
+		
+		for(var i=0;i<4;i++){
+			row.appendChild(cdiv(classes[i]));
+		}
+		
+		if(con.firstChild == null){
+			con.appendChild(row);
+		}else{
+			con.insertBefore(row,con.firstChild);
+		}
+	}
+	
+	//删除最后一行
+	function drow(){
+		var con = $('container');
+		if(con.childNodes.length == 6){
+			con.removeChild(con.lastChild);
+		}
+	}
+
+	//创建一个div，className是其类名
+	function cdiv(className){
+		var div = document.createElement('div');
+		div.className = className;
+		return div;
+	}
+	
+	//返回一个数组，随机其中一个单元，值为'cell black'，其他3个，皆为'cell'
+	function createSn(){
+		var arr = ['cell','cell','cell','cell'];
+		var i = Math.floor(Math.random()*4);
+		arr[i] = 'cell black';
+		return arr;
+	}
+	
+	//按照id获取对象
+	function $(id){
+		return document.getElementById(id);
+	}
+	
+	init();
+	
+	//点击开始
+	var oBegin = $("begin");
+	oBegin.onclick = function(){
+		start();
+	};
+</script>
+
+</html>

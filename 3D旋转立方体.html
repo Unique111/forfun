@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3D旋转立方体</title>
+<style>
+	body{
+		margin:0;
+		padding:0;
+	}
+	#container{
+		width:600px;
+		height:600px;
+		margin:0 auto;
+		background:#ccc;
+		
+		position:relative;
+	}
+	#cube{
+		width:200px;
+		height:200px;
+		
+		position:absolute;
+		top:200px;
+		left:200px;
+		
+		-webkit-perspective:10000;
+		-webkit-perspective-origin:50% 50%;
+		
+		-webkit-transform-style:preserve-3d;
+		-webkit-transform:rotateX(-20deg) rotateY(-20deg) rotateZ(10deg);	
+		
+		-webkit-animation:cube 10s ease 0.5s infinite alternate;
+		
+		
+		-moz-perspective:10000;
+		-moz-perspective-origin:50% 50%;
+		
+		-moz-transform-style:preserve-3d;
+		-moz-transform:rotateX(-20deg) rotateY(-20deg) rotateZ(10deg);	
+		
+		-moz-animation:cube 10s linear 0.5s infinite alternate;
+	}
+	#cube li{
+		list-style:none;
+		width:200px;
+		height:200px;
+		line-height:200px;
+		font-size:48px;
+		font-weight:bold;
+		text-align:center;
+		font-family:微软雅黑;
+		color:#fff;
+		
+		position:absolute;
+	}
+	#cube li:nth-child(1){
+		background:rgba(128,0,128,0.5);
+		-webkit-transform-origin:left;
+		-webkit-transform:rotateY(-90deg);
+		
+		-moz-transform-origin:left;
+		-moz-transform:rotateY(-90deg);
+	}
+	#cube li:nth-child(2){
+		background:rgba(255,0,255,0.5);
+		-webkit-transform-origin:right;
+		-webkit-transform:rotateY(90deg);
+		
+		-moz-transform-origin:right;
+		-moz-transform:rotateY(90deg);
+	}
+	#cube li:nth-child(3){
+		background:rgba(255,153,204,0.5);
+		-webkit-transform-origin:top;
+		-webkit-transform:rotateX(90deg);
+		
+		-moz-transform-origin:top;
+		-moz-transform:rotateX(90deg);
+	}
+	#cube li:nth-child(4){
+		background:rgba(0,204,255,0.5);
+		-webkit-transform-origin:bottom;
+		-webkit-transform:rotateX(-90deg);
+		
+		-moz-transform-origin:bottom;
+		-moz-transform:rotateX(-90deg);
+	}
+	#cube li:nth-child(5){
+		background:rgba(153,204,255,0.5);
+		-webkit-transform-origin:center;
+		
+		-moz-transform-origin:center;
+	}
+	#cube li:nth-child(6){
+		background:rgba(0,255,255,0.5);
+		-webkit-transform-origin:center;
+		-webkit-transform:translateZ(200px);
+		
+		-moz-transform-origin:center;
+		-moz-transform:translateZ(200px);
+	}
+	
+	@-webkit-keyframes cube{
+		0%{-webkit-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+		10%{-webkit-transform:rotateX(180deg) rotateY(20deg) rotateZ(10deg);}
+		25%{-webkit-transform:rotateX(360deg) rotateY(20deg) rotateZ(10deg);}
+		26%{-webkit-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+		40%{-webkit-transform:rotateX(20deg) rotateY(180deg) rotateZ(10deg);}
+		50%{-webkit-transform:rotateX(20deg) rotateY(360deg) rotateZ(10deg);}
+		51%{-webkit-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+		60%{-webkit-transform:rotateX(20deg) rotateY(20deg) rotateZ(180deg);}
+		75%{-webkit-transform:rotateX(20deg) rotateY(20deg) rotateZ(360deg);}
+		76%{-webkit-transform:rotateX(180deg) rotateY(180deg) rotateZ(180deg);}
+		85%{-webkit-transform:rotateX(360deg) rotateY(360deg) rotateZ(360deg);}
+		100%{-webkit-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+	}
+	
+	@-moz-keyframes cube{
+		0%{-moz-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+		10%{-moz-transform:rotateX(180deg) rotateY(20deg) rotateZ(10deg);}
+		25%{-moz-transform:rotateX(360deg) rotateY(20deg) rotateZ(10deg);}
+		26%{-moz-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+		40%{-moz-transform:rotateX(20deg) rotateY(180deg) rotateZ(10deg);}
+		50%{-moz-transform:rotateX(20deg) rotateY(360deg) rotateZ(10deg);}
+		51%{-moz-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+		60%{-moz-transform:rotateX(20deg) rotateY(20deg) rotateZ(180deg);}
+		75%{-moz-transform:rotateX(20deg) rotateY(20deg) rotateZ(360deg);}
+		76%{-moz-transform:rotateX(180deg) rotateY(180deg) rotateZ(180deg);}
+		85%{-moz-transform:rotateX(360deg) rotateY(360deg) rotateZ(360deg);}
+		100%{-moz-transform:rotateX(20deg) rotateY(20deg) rotateZ(10deg);}
+	}
+	
+</style>
+</head>
+
+<body>
+
+	<div id="container">
+      	<ul id="cube">
+            	<li>1</li>
+                  <li>2</li>
+                  <li>3</li>
+                  <li>4</li>
+                  <li>5</li>
+                  <li>6</li>
+            </ul>
+      </div>
+
+</body>
+</html>
